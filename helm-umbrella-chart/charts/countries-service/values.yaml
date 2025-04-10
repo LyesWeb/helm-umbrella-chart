@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: countries-service
+  repository: helm-umbrella-chart-countries-service
   tag: latest
   pullPolicy: IfNotPresent
 

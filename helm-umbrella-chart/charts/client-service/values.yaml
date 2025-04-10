@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: client-service
+  repository: helm-umbrella-chart-client-service
   tag: latest
   pullPolicy: IfNotPresent
 

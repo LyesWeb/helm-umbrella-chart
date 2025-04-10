@@ -4,7 +4,7 @@ global:
 countries-service:
   replicaCount: 1
   image:
-    repository: countries-service
+    repository: helm-umbrella-chart-countries-service
     tag: latest
     pullPolicy: IfNotPresent
   service:
@@ -21,7 +21,7 @@ countries-service:
 client-service:
   replicaCount: 1
   image:
-    repository: client-service
+    repository: helm-umbrella-chart-client-service
     tag: latest
     pullPolicy: IfNotPresent
   service:
@@ -44,4 +44,4 @@ client-service:
       memory: 64Mi
   env:
     - name: COUNTRIES_SERVICE_URL
-      value: "http://countries-app-countries-service:8080/countries"
+      value: "http://helm-umbrella-chart-countries-service:8080/countries"
