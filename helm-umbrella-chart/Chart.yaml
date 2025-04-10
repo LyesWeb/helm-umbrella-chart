@@ -1,0 +1,13 @@
+apiVersion: v2
+name: countries-app
+description: A Helm chart for Countries Application
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: countries-service
+    version: 0.1.0
+    repository: file://charts/countries-service
+  - name: client-service
+    version: 0.1.0
+    repository: file://charts/client-service

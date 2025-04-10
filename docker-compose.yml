@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  countries-service:
+    build:
+      context: ./countries-service
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - CSV_PATH=/app/countries.csv
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  client-service:
+    build:
+      context: ./client-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+      - COUNTRIES_SERVICE_URL=http://countries-service:8080/countries
+    depends_on:
+      - countries-service
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8081/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3

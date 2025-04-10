@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-countries-service
+  labels:
+    app: countries-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: countries-service
+  template:
+    metadata:
+      labels:
+        app: countries-service
+    spec:
+      containers:
+        - name: countries-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: PORT
+              value: "{{ .Values.service.port }}"
+            - name: CSV_PATH
+              value: "/app/data/countries.csv"
+          volumeMounts:
+            - name: countries-data
+              mountPath: /app/data
+      volumes:
+        - name: countries-data
+          configMap:
+            name: {{ .Release.Name }}-countries-csv
