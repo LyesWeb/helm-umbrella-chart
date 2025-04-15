@@ -1,4 +1,3 @@
-// countries-service/main.go
 package main
 
 import (
@@ -56,9 +55,9 @@ func loadCountriesFromCSV(filePath string) ([]Country, error) {
 	}
 
 	var countries []Country
-	// Skip header row
+
 	for i, record := range records {
-		if i == 0 { // Skip header
+		if i == 0 {
 			continue
 		}
 		if len(record) >= 4 {
